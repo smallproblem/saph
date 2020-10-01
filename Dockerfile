@@ -2,7 +2,8 @@ FROM python:3.8-alpine
 
 ENV LANG ko_KR.UTF-8
 RUN set -ex \
-    && ln -s -f /usr/share/zoneinfo/Asia/Seoul /etc/localtime
+    && ln -s -f /usr/share/zoneinfo/Asia/Seoul /etc/localtime \
+    && apk add --update npm
 
 COPY . /saph/
 WORKDIR /saph
@@ -10,4 +11,12 @@ WORKDIR /saph
 RUN set -ex \
     && pip install -e .
 
-CMD ["python", "saph/manage.py", "runserver", "0.0.0.0:8000"]
+WORKDIR /saph/saph
+
+RUN set -ex \
+    && npm init -y \
+    && npm i webpack webpack-cli --save \
+    && npm run build \
+    && chmod +x ../run.sh
+
+CMD ["sh", "../run.sh"]
