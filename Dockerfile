@@ -15,8 +15,7 @@ WORKDIR /saph/saph
 
 RUN set -ex \
     && npm init -y \
-    && npm i webpack webpack-cli --save \
-    && npm run build \
+    && npm install \
     && chmod +x ../run.sh
 
 CMD ["sh", "../run.sh"]
