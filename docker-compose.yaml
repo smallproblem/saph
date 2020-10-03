@@ -1,0 +1,11 @@
+version: '3'
+services:
+  saph:
+    build: .
+    container_name: saph
+    ports:
+      - "8000:8000"
+    volumes:
+      - ./saph:/saph/saph
+    environment:
+      - ENV_TYPE=DEVELOP
