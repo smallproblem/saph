@@ -1,3 +1,4 @@
+const webpack = require('webpack');
 module.exports = {
     mode : 'development',
     entry : './static/js/index.js',
@@ -34,8 +35,28 @@ module.exports = {
             name: '[name].[ext]?[hash]'
           }
         },
+        {
+          test: /\.(png|gif|jpe|jpg|woff|woff2|eot|ttf|svg)(\?.*$|$)/,
+          use: [{
+              loader: 'url-loader',
+              options: {
+                  limit: 100000
+              }
+          }]
+      },
+        {
+          test: /\.js$/,
+          enforce: 'pre',
+          use: ['source-map-loader'],
+        },
       ],
     },
+    plugins: [
+      new webpack.ProvidePlugin({
+         $: "jquery",
+         jQuery: "jquery"
+     })
+    ],
     resolve:{  
       alias :{
         'vue$': 'vue/dist/vue.esm.js'
@@ -45,6 +66,6 @@ module.exports = {
     devServer: {  
       headers: {
           'Access-Control-Allow-Origin': '*', 
-      }
+      },
     }
   }
